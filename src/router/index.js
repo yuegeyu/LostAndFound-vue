@@ -1,28 +1,51 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    redirect: '/home',
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: () => import('../views/Home.vue'),
+    redirect: '/findPerson',
+    children: [
+      {
+        path: '/findGoods',
+        name: 'findGoods',
+        component: () => import('../views/FindGoods.vue')
+      },
+      {
+        path: '/findPerson',
+        name: 'findPerson',
+        component: () => import('../views/FindPerson.vue')
+      },
+      {
+        path: '/user',
+        name: 'user',
+        component: () => import('../views/User.vue')
+      },
+      {
+        path: '/admin',
+        name: 'admin',
+        component: () => import('../views/Admin.vue')
+      }
+    ]
   }
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base:  '/LostAndFound-admin', //process.env.BASE_URL,
   routes
 })
 
